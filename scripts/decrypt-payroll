@@ -1,3 +1,13 @@
 #!/usr/bin/env bash
 
-qpdf --show-encryption "${1}" | grep "File is not encrypted" || qpdf --decrypt --replace-input --password="${PAPERLESS_PAYROLL_PASSWORD}" "${1}"
+encryption_info=$(qpdf --show-encryption "${DOCUMENT_WORKING_PATH}")
+
+if echo "$encryption_info" | grep -q "File is not encrypted"; then
+    echo "File is not encrypted. Skipping..."
+else
+    if qpdf --decrypt --replace-input --password="${PAPERLESS_PAYROLL_PASSWORD}" "${DOCUMENT_WORKING_PATH}"; then
+        echo "Decryption successful"
+    else
+        echo "Decryption failed (maybe wrong password). Continuing with the original file."
+    fi
+fi
