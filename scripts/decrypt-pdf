@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 
-# Assuming that passwords are stored in the environment variable PAPERLESS_DECRYPT_PASSWORD, separated by whitespaces
-passwords=($PAPERLESS_DECRYPT_PASSWORD)
+# Check if the file is encrypted
+encryption_info=$(qpdf --show-encryption "${DOCUMENT_WORKING_PATH}")
 
-for password in "${passwords[@]}"
-do
-    # Check if the file is encrypted
-    encryption_info=$(qpdf --show-encryption "${DOCUMENT_WORKING_PATH}")
-    
-    if echo "$encryption_info" | grep -q "File is not encrypted"; then
-        echo "File is not encrypted. Skipping..."
-    else
+if echo "$encryption_info" | grep -q "File is not encrypted"; then
+    echo "File is not encrypted. Skipping..."
+else
+    # Assuming that passwords are stored in the environment variable PAPERLESS_PAYROLL_PASSWORDS, separated by spaces
+    passwords=($PAPERLESS_DECRYPT_PASSWORD)
+
+    for password in "${passwords[@]}"
+    do
         # Try to decrypt the file with the current password
         if qpdf --decrypt --replace-input --password="$password" "${DOCUMENT_WORKING_PATH}"; then
             echo "Decryption successful"
@@ -18,5 +18,5 @@ do
         else
             echo "Decryption failed with provided password"
         fi
-    fi
-done
+    done
+fi
