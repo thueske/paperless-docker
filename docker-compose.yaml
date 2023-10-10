@@ -9,9 +9,6 @@ services:
       default:
     labels:
       backups: "true"
-    dns:
-      - "1.1.1.1"
-      - "1.0.0.1"
 
   db:
     image: postgres:15-alpine
@@ -74,9 +71,6 @@ services:
       proxy_apps:
     labels:
       backups: "true"
-    dns:
-      - "1.1.1.1"
-      - "1.0.0.1"
 
   sftp:
     image: atmoz/sftp:alpine
@@ -102,18 +96,12 @@ services:
       CHROMIUM_DISABLE_ROUTES: 1
     networks:
       default:
-    dns:
-      - "1.1.1.1"
-      - "1.0.0.1"
 
   tika:
     image: apache/tika
     restart: unless-stopped
     networks:
       default:
-    dns:
-      - "1.1.1.1"
-      - "1.0.0.1"
 
 networks:
   proxy_apps:
