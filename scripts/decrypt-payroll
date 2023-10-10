@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+qpdf --show-encryption "${1}" | grep "File is not encrypted" || qpdf --decrypt --replace-input --password="${PAPERLESS_PAYROLL_PASSWORD}" "${1}"
