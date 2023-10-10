@@ -46,7 +46,7 @@ services:
       - app_media:/usr/src/paperless/media
       - app_export:/usr/src/paperless/export
       - sftp_data:/usr/src/paperless/consume
-      - $PWD/scripts/decrypt-payroll:/usr/local/bin/scripts/decrypt-payroll
+      - $PWD/scripts/decrypt-pdf:/usr/local/bin/scripts/decrypt-pdf
     environment:
       PAPERLESS_REDIS: redis://broker:6379
       PAPERLESS_DBHOST: db
@@ -67,8 +67,8 @@ services:
       PAPERLESS_THREADS_PER_WORKER: 2
       PAPERLESS_TIME_ZONE: "Europe/Berlin"
       PAPERLESS_FILENAME_FORMAT_REMOVE_NONE: true
-      PAPERLESS_PAYROLL_PASSWORD:
-      PAPERLESS_PRE_CONSUME_SCRIPT: "/usr/local/bin/scripts/decrypt-payroll"
+      PAPERLESS_DECRYPT_PASSWORD:
+      PAPERLESS_PRE_CONSUME_SCRIPT: "/usr/local/bin/scripts/decrypt-pdf"
     networks:
       default:
       proxy_apps:
